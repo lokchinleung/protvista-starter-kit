@@ -37,7 +37,10 @@ rows:
         label: Hotspots
         kind: features
         data: ./data/hotspots.csv
-        description: My hotspot annotations
+        dataTooltip: |
+          **{% $description %}**
+          Type: {% $type %}
+          Position: {% $start %}–{% $end %}
         
       - id: predictions
         label: Predictions
