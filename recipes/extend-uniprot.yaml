@@ -46,3 +46,6 @@ rows:
         label: Regions BED
         kind: features
         data: ./data/regions.bed
+        rendering:
+          color: '#2e86c1'
+          shape: roundRectangle
