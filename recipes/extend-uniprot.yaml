@@ -36,3 +36,13 @@ rows:
         kind: features
         data: ./data/predictions.csv
         description: Practice predictions
+
+      - id: hotspots_json
+        label: Hotspots JSON
+        kind: features
+        data: ./data/hotspots.json
+
+      - id: regions_bed
+        label: Regions BED
+        kind: features
+        data: ./data/regions.bed
