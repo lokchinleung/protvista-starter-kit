@@ -1,0 +1,4 @@
+type,start,end,description,score
+REGION,100,160,Predicted disordered loop,0.55
+BINDING,180,188,Predicted copper-binding site,0.81
+MOTIF,682,687,Predicted cleavage motif,0.7
