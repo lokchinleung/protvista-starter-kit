@@ -22,7 +22,8 @@ rows:
   - id: MY_LAB
     label: My lab
     tracks:
-      - id: hotspots
+      - id: predictions
+        label: Predictions
         kind: features
-        data: ./data/hotspots-extends.csv
-        description: Hotspot regions identified by our lab's pipeline, layered on top of the canonical UniProt viewer
+        data: ./data/predictions.csv
+        description: Practice predictions
