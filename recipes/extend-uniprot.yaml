@@ -25,7 +25,7 @@ rows:
   - id: MY_LAB
     label: My lab
     tracks:
-    - id: hotspots
+      - id: hotspots
         label: Hotspots
         kind: features
         data: ./data/hotspots.csv
