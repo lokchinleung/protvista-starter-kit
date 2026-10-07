@@ -3,3 +3,5 @@ DOMAIN,18,289,Extracellular domain (custom re-annotation),0.95
 BINDING,132,140,Predicted heparin-binding site,0.87
 REGION,290,340,Acidic-rich linker region,0.6
 MUTAGEN,614,614,Lab-observed loss-of-function point mutation,0.75
+REGION,100,160,Predicted disordered loop,0.55
+BINDING,180,188,Predicted copper-binding site,0.81
