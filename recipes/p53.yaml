@@ -1,0 +1,19 @@
+$schema: https://ebi-webcomponents.github.io/protvista/schema/v1/config.schema.json
+accession: P04637
+extends: https://cdn.jsdelivr.net/npm/protvista-uniprot@5.0.0-beta.5/dist/default-config.yaml
+
+theme:
+  labelColor: '#fff2cc'
+  accentColor: '#b8860b'
+
+rows:
+  - id: MY_P53
+    label: My p53 data
+    tracks:
+      - id: p53_features
+        label: p53 practice features
+        kind: features
+        data: ./data/p53-features.csv
+        dataTooltip: |
+          **{% $description %}**
+          Position: {% $start %}–{% $end %}
