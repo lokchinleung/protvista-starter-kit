@@ -13,7 +13,7 @@ rows:
     tracks:
       - id: p53_features
         label: p53 practice features
-        kind: feature
+        kind: features
         data: ./data/p53-features.csv
         dataTooltip: |
           **{% $description %}**
