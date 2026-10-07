@@ -62,3 +62,7 @@ rows:
         data: ./data/hotspots.csv
         filter: BINDING
           
+      - id: conservation
+        label: Conservation
+        kind: linegraph
+        data: ./data/conservation.csv
