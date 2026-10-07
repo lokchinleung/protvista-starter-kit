@@ -27,7 +27,7 @@ rows:
   - id: MY_LAB
     label: My lab
     tracks:
-        - id: live_uniprot_domains
+      - id: live_uniprot_domains
         label: Live UniProt domains
         kind: features
         data: uniprot_features
