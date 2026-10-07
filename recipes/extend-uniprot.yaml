@@ -17,6 +17,8 @@
 $schema: https://ebi-webcomponents.github.io/protvista/schema/v1/config.schema.json
 accession: P05067
 extends: https://cdn.jsdelivr.net/npm/protvista-uniprot@5.0.0-beta.5/dist/default-config.yaml
+sources:
+  uniprot_features: https://www.ebi.ac.uk/proteins/api/features/{accession}
 
 rows:
   - id: EPITOPE
@@ -25,6 +27,12 @@ rows:
   - id: MY_LAB
     label: My lab
     tracks:
+        - id: live_uniprot_domains
+        label: Live UniProt domains
+        kind: features
+        data: uniprot_features
+        filter: DOMAIN
+        
       - id: hotspots
         label: Hotspots
         kind: features
