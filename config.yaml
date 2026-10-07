@@ -27,7 +27,8 @@ rows:
     label: Hotspots
     kind: features
     data: ./data/hotspots.csv
-    description: Hotspot regions identified by our lab's pipeline
+    description: My hotspot annotations
+    
   - id: predictions
     label: Predictions
     kind: features
