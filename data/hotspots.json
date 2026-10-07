@@ -1,0 +1,14 @@
+[
+  {
+    "type": "DOMAIN",
+    "start": 18,
+    "end": 289,
+    "description": "Extracellular domain"
+  },
+  {
+    "type": "BINDING",
+    "start": 132,
+    "end": 140,
+    "score": 0.87
+  }
+]
