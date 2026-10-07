@@ -56,6 +56,7 @@ rows:
         label: Hotspots JSON
         kind: features
         data: ./data/hotspots.json
+        hidden: true
 
       - id: regions_bed
         label: Regions BED
