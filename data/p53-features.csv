@@ -1,0 +1,6 @@
+type,start,end,description,score
+REGION,1,61,Transactivation region,0.9
+DOMAIN,94,292,DNA-binding domain,0.95
+MOTIF,305,322,Nuclear localisation signal,0.8
+REGION,325,356,Tetramerisation region,0.85
+REGION,380,420,Deliberately runs past residue 393,0.1
