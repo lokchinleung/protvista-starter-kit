@@ -1,89 +1,594 @@
-# Your track layered on top of the FULL UniProt viewer.
-#
-# `extends:` pulls in the canonical UniProt configuration — all its
-# sources, its ~15 annotation groups, and its colour themes — so you
-# declare only what you are adding. Everything below `rows:` is
-# appended to that base rather than replacing it.
-#
-# The `extends:` URL is pinned to an exact release, and it is the same
-# version index.html loads the component from. Keep the two in step: a
-# config written for one release is not guaranteed to merge cleanly
-# into another. It resolves over the network like any other URL, so
-# this recipe needs internet access.
-#
-# To use this recipe, copy it over config.yaml — or open
-# index.html?config=recipes/extend-uniprot.yaml to preview it without
-# editing anything.
-$schema: https://ebi-webcomponents.github.io/protvista/schema/v1/config.schema.json
-accession: P05067
-extends: https://cdn.jsdelivr.net/npm/protvista-uniprot@5.0.0-beta.5/dist/default-config.yaml
-sources:
-  uniprot_features: https://www.ebi.ac.uk/proteins/api/features/{accession}
-
-theme:
-  labelColor: '#fff2cc'
-  accentColor: '#b8860b'
-  
-rows:
-  - id: EPITOPE
-    hidden: true
-    
-  - id: MY_LAB
-    label: My lab
-    tracks:
-      - id: live_uniprot_domains
-        label: Live UniProt domains
-        kind: features
-        data: uniprot_features
-        filter: DOMAIN
-        
-      - id: hotspots
-        label: Hotspots
-        kind: features
-        data: ./data/hotspots.csv
-        dataTooltip: |
-          **{% $description %}**
-          Type: {% $type %}
-          Position: {% $start %}–{% $end %}
-        
-      - id: predictions
-        label: Predictions
-        kind: features
-        data: ./data/predictions.csv
-        description: Practice predictions
-
-      - id: hotspots_json
-        label: Hotspots JSON
-        kind: features
-        data: ./data/hotspots.json
-        hidden: true
-
-      - id: regions_bed
-        label: Regions BED
-        kind: features
-        data: ./data/regions.bed
-        rendering:
-          color: '#2e86c1'
-          shape: roundRectangle
-          
-      - id: hotspots_domains
-        label: Hotspots domains
-        kind: features
-        data: ./data/hotspots.csv
-        filter: DOMAIN
-
-      - id: hotspots_binding
-        label: Hotspots binding sites
-        kind: features
-        data: ./data/hotspots.csv
-        filter: BINDING
-          
-      - id: conservation
-        label: Conservation
-        kind: linegraph
-        data: ./data/conservation.csv
-
-      - id: my_variants
-        label: My variants
-        kind: variants
-        data: ./data/my-variants.csv
+{
+  "rows": [
+    {
+      "id": "MOLECULE_PROCESSING",
+      "label": "Molecule processing",
+      "tracks": [
+        {
+          "id": "signal",
+          "label": "{% help slug=\"signal\" %}Signal peptide{% /help %}",
+          "kind": "features",
+          "filter": "SIGNAL",
+          "data": "features",
+          "description": "N-terminal signal peptide"
+        },
+        {
+          "id": "chain",
+          "label": "{% help slug=\"chain\" %}Chain{% /help %}",
+          "kind": "features",
+          "filter": "CHAIN",
+          "data": "features",
+          "description": "(aka mature region). This describes the extent of a polypeptide chain in the mature protein following processing"
+        },
+        {
+          "id": "transit",
+          "label": "{% help slug=\"transit\" %}Transit peptide{% /help %}",
+          "kind": "features",
+          "filter": "TRANSIT",
+          "data": "features",
+          "description": "This describes the extent of a transit peptide"
+        },
+        {
+          "id": "init_met",
+          "label": "{% help slug=\"init_met\" %}Initiator methionine{% /help %}",
+          "kind": "features",
+          "filter": "INIT_MET",
+          "data": "features",
+          "description": "This indicates that the initiator methionine is cleaved from the mature protein"
+        },
+        {
+          "id": "propep",
+          "label": "{% help slug=\"propep\" %}Propeptide{% /help %}",
+          "kind": "features",
+          "filter": "PROPEP",
+          "data": "features",
+          "description": "Part of a protein that is cleaved during maturation or activation"
+        },
+        {
+          "id": "peptide",
+          "label": "{% help slug=\"peptide\" %}Peptide{% /help %}",
+          "kind": "features",
+          "filter": "PEPTIDE",
+          "data": "features",
+          "description": "The position and length of an active peptide in the mature protein"
+        }
+      ]
+    },
+    {
+      "id": "SEQUENCE_INFORMATION",
+      "label": "Sequence information",
+      "tracks": [
+        {
+          "id": "compbias",
+          "label": "{% help slug=\"compbias\" %}Compositional bias{% /help %}",
+          "kind": "features",
+          "filter": "COMPBIAS",
+          "data": "features",
+          "description": "Position of regions of compositional bias within the protein and the particular amino acids that are over-represented within those regions"
+        },
+        {
+          "id": "conflict",
+          "label": "{% help slug=\"conflict\" %}Sequence conflict{% /help %}",
+          "kind": "features",
+          "filter": "CONFLICT",
+          "data": "features",
+          "description": "Sequence discrepancies of unknown origin"
+        },
+        {
+          "id": "non_cons",
+          "label": "{% help slug=\"non_cons\" %}Non-adjacent residues{% /help %}",
+          "kind": "features",
+          "filter": "NON_CONS",
+          "data": "features",
+          "description": "Indicates that two residues in a sequence are not consecutive and that there is an undetermined number of unsequenced residues between them"
+        },
+        {
+          "id": "non_ter",
+          "label": "{% help slug=\"non_ter\" %}Non-terminal residue{% /help %}",
+          "kind": "features",
+          "filter": "NON_TER",
+          "data": "features",
+          "description": "The sequence is incomplete. The residue is not the terminal residue of the complete protein"
+        },
+        {
+          "id": "unsure",
+          "label": "{% help slug=\"unsure\" %}Sequence uncertainty{% /help %}",
+          "kind": "features",
+          "filter": "UNSURE",
+          "data": "features",
+          "description": "Regions of a sequence for which the authors are unsure about the sequence assignment"
+        },
+        {
+          "id": "non_std",
+          "label": "{% help slug=\"non_std\" %}Non-standard residue{% /help %}",
+          "kind": "features",
+          "filter": "NON_STD",
+          "data": "features",
+          "description": "Non-standard amino acids (selenocysteine and pyrrolysine)"
+        }
+      ]
+    },
+    {
+      "id": "TOPOLOGY",
+      "label": "Topology",
+      "tracks": [
+        {
+          "id": "topo_dom",
+          "label": "{% help slug=\"topo_dom\" %}Topological domain{% /help %}",
+          "kind": "features",
+          "filter": "TOPO_DOM",
+          "data": "features",
+          "description": "Location of non-membrane regions of membrane-spanning proteins"
+        },
+        {
+          "id": "transmem",
+          "label": "{% help slug=\"transmem\" %}Transmembrane{% /help %}",
+          "kind": "features",
+          "filter": "TRANSMEM",
+          "data": "features",
+          "description": "Extent of a membrane-spanning region"
+        },
+        {
+          "id": "intramem",
+          "label": "{% help slug=\"intramem\" %}Intramembrane{% /help %}",
+          "kind": "features",
+          "filter": "INTRAMEM",
+          "data": "features",
+          "description": "Extent of a region located in a membrane without crossing it"
+        }
+      ]
+    },
+    {
+      "id": "DOMAINS",
+      "label": "Domains",
+      "tracks": [
+        {
+          "id": "domain",
+          "label": "{% help slug=\"domain\" %}Domain{% /help %}",
+          "kind": "features",
+          "filter": "DOMAIN",
+          "data": "features",
+          "description": "Specific combination of secondary structures organized into a characteristic three-dimensional structure or fold"
+        },
+        {
+          "id": "InterPro representative domain",
+          "label": "{% help slug=\"InterPro_rep_domain\" %}InterPro Representative Domain{% /help %}",
+          "kind": "interpro-features",
+          "data": "interproDomains",
+          "description": "InterPro representative domains"
+        },
+        {
+          "id": "region",
+          "label": "{% help slug=\"region\" %}Region{% /help %}",
+          "kind": "features",
+          "filter": "REGION",
+          "data": "features",
+          "description": "Regions in multifunctional enzymes or fusion proteins, or characteristics of a region, e.g., protein-protein interactions mediation"
+        },
+        {
+          "id": "repeat",
+          "label": "{% help slug=\"repeat\" %}Repeat{% /help %}",
+          "kind": "features",
+          "filter": "REPEAT",
+          "data": "features",
+          "description": "Repeated sequence motifs or repeated domains within the protein"
+        },
+        {
+          "id": "motif",
+          "label": "{% help slug=\"motif\" %}Motif{% /help %}",
+          "kind": "features",
+          "filter": "MOTIF",
+          "data": "features",
+          "description": "Short conserved sequence motif of biological significance"
+        },
+        {
+          "id": "zn_fing",
+          "label": "{% help slug=\"zn_fing\" %}Zinc finger{% /help %}",
+          "kind": "features",
+          "filter": "ZN_FING",
+          "data": "features",
+          "description": "Small, functional, independently folded domain that coordinates one or more zinc ions"
+        }
+      ]
+    },
+    {
+      "id": "SITES",
+      "label": "Sites",
+      "tracks": [
+        {
+          "id": "metal",
+          "label": "{% help slug=\"binding\" %}Metal binding{% /help %}",
+          "kind": "features",
+          "filter": "METAL",
+          "data": "features",
+          "description": "Binding site for a metal ion"
+        },
+        {
+          "id": "site",
+          "label": "{% help slug=\"site\" %}Site{% /help %}",
+          "kind": "features",
+          "filter": "SITE",
+          "data": "features",
+          "description": "Any interesting single amino acid site on the sequence"
+        },
+        {
+          "id": "ca_bind",
+          "label": "{% help slug=\"binding\" %}Calcium binding{% /help %}",
+          "kind": "features",
+          "filter": "CA_BIND",
+          "data": "features",
+          "description": "Calcium-binding regions, such as the EF-hand motif"
+        },
+        {
+          "id": "dna_bind",
+          "label": "{% help slug=\"dna_bind\" %}DNA binding{% /help %}",
+          "kind": "features",
+          "filter": "DNA_BIND",
+          "data": "features",
+          "description": "DNA-binding domains such as AP2/ERF domain, the ETS domain, the Fork-Head domain, the HMG box and the Myb domain"
+        },
+        {
+          "id": "np_bind",
+          "label": "{% help slug=\"binding\" %}Nucleotide binding{% /help %}",
+          "kind": "features",
+          "filter": "NP_BIND",
+          "data": "features",
+          "description": "(aka flavin-binding). Region in the protein which binds nucleotide phosphates"
+        },
+        {
+          "id": "binding",
+          "label": "{% help slug=\"binding\" %}Binding site{% /help %}",
+          "kind": "features",
+          "filter": "BINDING",
+          "data": "features",
+          "description": "Binding site for any chemical group (co-enzyme, prosthetic group, etc.)"
+        },
+        {
+          "id": "act_site",
+          "label": "{% help slug=\"act_site\" %}Active site{% /help %}",
+          "kind": "features",
+          "filter": "ACT_SITE",
+          "data": "features",
+          "description": "Amino acid(s) directly involved in the activity of an enzyme"
+        }
+      ]
+    },
+    {
+      "id": "PTM",
+      "label": "PTM",
+      "tracks": [
+        {
+          "id": "mod_res",
+          "label": "{% help slug=\"mod_res\" %}Modified residue{% /help %}",
+          "kind": "features",
+          "filter": "MOD_RES",
+          "data": "features",
+          "description": "Modified residues such as phosphorylation, acetylation, acylation, methylation"
+        },
+        {
+          "id": "mod_res_ls",
+          "label": "{% help slug=\"mod_res_large_scale\" %}Modified residue (large scale data){% /help %}",
+          "kind": "peptides-ptm",
+          "filter": "MOD_RES_LS",
+          "data": "proteomicsPtm",
+          "description": "Modified residues from Large scale studies"
+        },
+        {
+          "id": "carbohyd",
+          "label": "{% help slug=\"carbohyd\" %}Glycosylation{% /help %}",
+          "kind": "features",
+          "filter": "CARBOHYD",
+          "data": "features",
+          "description": "Covalently attached glycan group(s)"
+        },
+        {
+          "id": "disulfid",
+          "label": "{% help slug=\"disulfid\" %}Disulfide bond{% /help %}",
+          "kind": "features",
+          "filter": "DISULFID",
+          "data": "features",
+          "description": "The positions of cysteine residues participating in disulphide bonds"
+        },
+        {
+          "id": "crosslnk",
+          "label": "{% help slug=\"crosslnk\" %}Cross-link{% /help %}",
+          "kind": "features",
+          "filter": "CROSSLNK",
+          "data": "features",
+          "description": "Covalent linkages of various types formed between two proteins or between two parts of the same protein"
+        },
+        {
+          "id": "lipid",
+          "label": "{% help slug=\"lipid\" %}Lipidation{% /help %}",
+          "kind": "features",
+          "filter": "LIPID",
+          "data": "features",
+          "description": "Covalently attached lipid group(s)"
+        }
+      ]
+    },
+    {
+      "id": "EPITOPE",
+      "label": "Epitopes",
+      "tracks": [
+        {
+          "id": "epitope",
+          "label": "{% help slug=\"epitopes\" %}Epitope{% /help %}",
+          "kind": "features",
+          "data": "epitopes"
+        }
+      ],
+      "hidden": true
+    },
+    {
+      "id": "ANTIGEN",
+      "label": "Antigenic sequences",
+      "tracks": [
+        {
+          "id": "antigen",
+          "label": "{% help slug=\"Antibody_binding_sequences\" %}Antibody binding sequences{% /help %}",
+          "kind": "features",
+          "data": "antigens"
+        }
+      ]
+    },
+    {
+      "id": "MUTAGENESIS",
+      "label": "Mutagenesis",
+      "tracks": [
+        {
+          "id": "mutagen",
+          "label": "{% help slug=\"mutagen\" %}Mutagenesis{% /help %}",
+          "kind": "features",
+          "filter": "MUTAGEN",
+          "data": "features",
+          "description": "Site which has been experimentally altered by mutagenesis"
+        },
+        {
+          "id": "othermutagen",
+          "label": "{% help slug=\"mutagen\" %}Mutagenesis (large scale data){% /help %}",
+          "kind": "features",
+          "data": "mutagenesis",
+          "description": "Site which has been experimentally altered by mutagenesis"
+        }
+      ]
+    },
+    {
+      "id": "VARIATION",
+      "label": "{% help slug=\"variant_viewer\" %}Variants{% /help %}",
+      "tracks": [
+        {
+          "id": "variation_graph",
+          "label": "Counts",
+          "kind": "variant-counts",
+          "data": "variation",
+          "description": "Natural variant of the protein, including polymorphisms, variations between strains, isolates or cultivars, disease-associated mutations and RNA editing events"
+        },
+        {
+          "id": "variation",
+          "kind": "variants",
+          "data": "variation",
+          "detailOnly": true,
+          "filterUI": "nightingale-filter",
+          "description": "Natural variant of the protein, including polymorphisms, variations between strains, isolates or cultivars, disease-associated mutations and RNA editing events"
+        }
+      ]
+    },
+    {
+      "id": "RNA_EDITING",
+      "label": "{% help slug=\"rna_editing\" %}RNA Editing{% /help %}",
+      "tracks": [
+        {
+          "id": "rna_editing_graph",
+          "label": "Counts",
+          "kind": "rna-editing-counts",
+          "data": "rnaEditing",
+          "description": "RNA editing events leading to one or more amino acid changes compared to the translation of the non-edited RNA version."
+        },
+        {
+          "id": "RNA Editing",
+          "kind": "rna-editing",
+          "data": "rnaEditing",
+          "detailOnly": true,
+          "description": "RNA editing events leading to one or more amino acid changes compared to the translation of the non-edited RNA version."
+        }
+      ]
+    },
+    {
+      "id": "PROTEOMICS",
+      "label": "Proteomics",
+      "tracks": [
+        {
+          "id": "unique",
+          "label": "{% help slug=\"proteomics#1-data-from-public-mass-spectrometry-based-proteomics-resources\" %}Unique peptide{% /help %}",
+          "kind": "peptides",
+          "filter": "unique",
+          "data": "proteomicsNonPtm"
+        },
+        {
+          "id": "non_unique",
+          "label": "{% help slug=\"proteomics#1-data-from-public-mass-spectrometry-based-proteomics-resources\" %}Non-unique peptide{% /help %}",
+          "kind": "peptides",
+          "filter": "non_unique",
+          "data": "proteomicsNonPtm"
+        },
+        {
+          "id": "hpp",
+          "label": "{% help slug=\"proteomics#3-human-proteome-project\" %}Human proteome project{% /help %}",
+          "kind": "peptides",
+          "data": "proteomicsHpp"
+        },
+        {
+          "id": "proteomics-ptm",
+          "label": "{% help slug=\"proteomics#4-post-translational-modification-ptm-data-derived-from-large-scale-mass-spectrometry-ms-datasets\" %}PTM-containing peptide{% /help %}",
+          "kind": "peptides",
+          "data": "proteomicsPtm"
+        }
+      ]
+    },
+    {
+      "id": "STRUCTURE_COVERAGE",
+      "label": "PDBe 3D structure coverage",
+      "tracks": [
+        {
+          "id": "pdbe_cover",
+          "label": "{% help slug=\"structure_section#structure-coverage\" %}PDBe coverage{% /help %}",
+          "kind": "structure-coverage",
+          "data": "proteins",
+          "description": "PDBe 3D structure coverage"
+        }
+      ]
+    },
+    {
+      "id": "ALPHAFOLD_CONFIDENCE",
+      "label": "{% help slug=\"structure_section#alphafold-structural-models\" %}AlphaFold{% /help %}",
+      "rendering": {
+        "colorScale": {
+          "theme": "alphafold-ramp"
+        }
+      },
+      "tracks": [
+        {
+          "id": "alphafold_confidence",
+          "label": "[AlphaFold Confidence](https://alphafold.ebi.ac.uk/entry/{accession})",
+          "kind": "alphafold-confidence",
+          "data": {
+            "source": [
+              "alphafoldPrediction",
+              "proteins"
+            ]
+          },
+          "description": "AlphaFold prediction confidence"
+        }
+      ]
+    },
+    {
+      "id": "ALPHAMISSENSE_PATHOGENICITY",
+      "label": "{% help slug=\"structure_section#alphamissense-prediction-of-genetic-variation-consequence-in-the-feature-viewer\" %}AlphaMissense{% /help %}",
+      "rendering": {
+        "colorScale": {
+          "theme": "alphamissense-ramp"
+        }
+      },
+      "tracks": [
+        {
+          "id": "alphamissense_pathogenicity",
+          "label": "Average Pathogenicity Score",
+          "kind": "alphamissense-pathogenicity",
+          "data": {
+            "source": [
+              "alphafoldPrediction",
+              "proteins"
+            ]
+          },
+          "description": "AlphaMissense pathogenicity"
+        },
+        {
+          "id": "alphamissense_pathogenicity_heatmap",
+          "label": "[AlphaMissense Pathogenicity](https://alphafold.ebi.ac.uk/entry/{accession})",
+          "kind": "alphamissense-heatmap",
+          "detailOnly": true,
+          "data": {
+            "source": [
+              "alphafoldPrediction",
+              "proteins"
+            ]
+          },
+          "description": "AlphaMissense pathogenicity"
+        }
+      ]
+    },
+    {
+      "id": "MY_LAB",
+      "label": "My lab",
+      "tracks": [
+        {
+          "id": "live_uniprot_domains",
+          "label": "Live UniProt domains",
+          "kind": "features",
+          "data": "uniprot_features",
+          "filter": "DOMAIN"
+        },
+        {
+          "id": "predictions",
+          "label": "Predictions",
+          "kind": "features",
+          "data": "./data/predictions.csv",
+          "description": "Practice predictions"
+        },
+        {
+          "id": "hotspots",
+          "label": "Hotspots",
+          "kind": "features",
+          "data": "./data/hotspots.csv",
+          "dataTooltip": "**{% $description %}**\nType: {% $type %}\nPosition: {% $start %}–{% $end %}\n"
+        },
+        {
+          "id": "hotspots_json",
+          "label": "Hotspots JSON",
+          "kind": "features",
+          "data": "./data/hotspots.json",
+          "hidden": true
+        },
+        {
+          "id": "regions_bed",
+          "label": "Regions BED",
+          "kind": "features",
+          "data": "./data/regions.bed",
+          "rendering": {
+            "color": "#2e86c1",
+            "shape": "roundRectangle"
+          }
+        },
+        {
+          "id": "hotspots_domains",
+          "label": "Hotspots domains",
+          "kind": "features",
+          "data": "./data/hotspots.csv",
+          "filter": "DOMAIN"
+        },
+        {
+          "id": "hotspots_binding",
+          "label": "Hotspots binding sites",
+          "kind": "features",
+          "data": "./data/hotspots.csv",
+          "filter": "BINDING"
+        },
+        {
+          "id": "conservation",
+          "label": "Conservation",
+          "kind": "linegraph",
+          "data": "./data/conservation.csv"
+        },
+        {
+          "id": "my_variants",
+          "label": "My variants",
+          "kind": "variants",
+          "data": "./data/my-variants.csv"
+        }
+      ]
+    }
+  ],
+  "version": "1.0",
+  "$schema": "https://ebi-webcomponents.github.io/protvista/schema/v1/config.schema.json",
+  "sources": {
+    "proteins": "https://www.ebi.ac.uk/proteins/api/proteins/{accession}",
+    "features": "https://www.ebi.ac.uk/proteins/api/features/{accession}",
+    "variation": "https://www.ebi.ac.uk/proteins/api/variation/{accession}",
+    "antigens": "https://www.ebi.ac.uk/proteins/api/antigen/{accession}",
+    "epitopes": "https://www.ebi.ac.uk/proteins/api/epitope/{accession}",
+    "mutagenesis": "https://www.ebi.ac.uk/proteins/api/mutagenesis/{accession}",
+    "rnaEditing": "https://www.ebi.ac.uk/proteins/api/rna-editing/{accession}",
+    "proteomicsNonPtm": "https://www.ebi.ac.uk/proteins/api/proteomics/nonPtm/{accession}",
+    "proteomicsPtm": "https://www.ebi.ac.uk/proteins/api/proteomics/ptm/{accession}",
+    "proteomicsHpp": "https://www.ebi.ac.uk/proteins/api/proteomics/hpp/{accession}",
+    "interproDomains": "https://www.ebi.ac.uk/interpro/wwwapi/entry/all/protein/uniprot/{accession}?type=domain&page_size=100",
+    "alphafoldPrediction": "https://alphafold.ebi.ac.uk/api/prediction/{accession}",
+    "uniprot_features": "https://www.ebi.ac.uk/proteins/api/features/{accession}"
+  },
+  "accession": "P05067",
+  "theme": {
+    "labelColor": "#fff2cc",
+    "accentColor": "#b8860b"
+  }
+}
