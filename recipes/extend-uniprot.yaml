@@ -49,3 +49,16 @@ rows:
         rendering:
           color: '#2e86c1'
           shape: roundRectangle
+          
+      - id: hotspots_domains
+        label: Hotspots domains
+        kind: features
+        data: ./data/hotspots.csv
+        filter: DOMAIN
+
+      - id: hotspots_binding
+        label: Hotspots binding sites
+        kind: features
+        data: ./data/hotspots.csv
+        filter: BINDING
+          
