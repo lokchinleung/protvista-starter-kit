@@ -66,3 +66,8 @@ rows:
         label: Conservation
         kind: linegraph
         data: ./data/conservation.csv
+
+      - id: my_variants
+        label: My variants
+        kind: variants
+        data: ./data/my-variants.csv
